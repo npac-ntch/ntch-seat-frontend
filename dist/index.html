@@ -7,6 +7,9 @@
 <link rel="icon" type="image/png" href="logo-無字.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="theme-color" content="#CB333B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+TC:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --red: #CB333B;
@@ -24,7 +27,7 @@
 html, body { overflow-x: hidden; width: 100%; }
 
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Poppins', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
@@ -46,7 +49,7 @@ body {
 .logo-wrap { display: flex; justify-content: center; align-items: center; margin-bottom: 18px; overflow: hidden; width: 100%; }
 .logo-wrap img { display: block; max-height: 44px; max-width: 100%; width: auto; height: auto; object-fit: contain; object-position: center; }
 .venue-eyebrow { font-size: 12px; font-weight: 600; color: var(--red); letter-spacing: 0.08em; line-height: 1.6; margin-bottom: 8px; }
-.venue-title { font-size: clamp(26px, 6vw, 38px); font-weight: 300; color: var(--ink); letter-spacing: -0.01em; margin-bottom: 6px; }
+.venue-title { font-size: clamp(26px, 6vw, 38px); font-weight: 400; color: var(--ink); letter-spacing: -0.01em; margin-bottom: 6px; }
 .venue-sub { font-size: 13px; color: var(--muted); }
 
 /* 卡片（一般容器） */
@@ -96,10 +99,12 @@ body {
 }
 
 /* 無節目時的提示 */
-.empty-notice { text-align: center; padding: 40px 10px; }
-.empty-notice .headline { font-size: 17px; font-weight: 600; color: var(--ink); margin-bottom: 18px; }
-.empty-notice .subline { font-size: 14px; color: var(--muted); line-height: 1.8; }
-.empty-notice .phone { font-size: 20px; font-weight: 700; color: var(--red); margin-top: 4px; }
+.empty-notice { text-align: center; padding: 48px 20px; }
+.empty-notice .headline { font-size: 17px; font-weight: 600; color: var(--ink); margin-bottom: 14px; }
+.contact-block { display: inline-flex; flex-direction: column; align-items: center; gap: 8px; }
+.empty-notice .subline { font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0; }
+.empty-notice .phone { font-size: 22px; font-weight: 700; color: var(--red); margin: 2px 0 0; }
+.empty-notice .hours { font-size: 13px; font-weight: 600; color: var(--muted); margin: 0; letter-spacing: 0.02em; }
 
 /* 場次選擇 */
 .select-label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
@@ -193,8 +198,7 @@ footer { text-align: center; padding: 20px 20px 28px; font-size: 11px; color: va
 <div class="page wide active" id="page-shows">
   <header class="venue-header">
     <div class="logo-wrap"><img src="logo-RB-s.png" alt="國家兩廳院"></div>
-    <p class="venue-eyebrow">國家兩廳院｜座位異動查詢</p>
-    <h1 class="venue-title">座位查詢</h1>
+    <h1 class="venue-title">座位異動查詢</h1>
     <p class="venue-sub" id="shows-subtitle">請選擇您觀看的節目</p>
   </header>
 
@@ -309,8 +313,11 @@ function renderShows() {
     content.innerHTML = `
       <div class="empty-notice">
         <p class="headline">近期無需換位之演出節目</p>
-        <p class="subline">如有問題，請致電兩廳院客服</p>
-        <p class="phone">02-3393-9999</p>
+        <div class="contact-block">
+          <p class="subline">如有問題，請致電兩廳院客服</p>
+          <p class="phone">02-3393-9888</p>
+          <p class="hours">每日 09:00－20:00</p>
+        </div>
       </div>`;
     return;
   }
@@ -379,7 +386,7 @@ function resultHTML(res) {
     </div>
     <div class="reminder-box">
       <p class="reminder-title">📣 小提醒</p>
-      <p class="reminder-text">請先截圖留存此畫面，方便入場時快速<span style="white-space:nowrap;">找尋座位。</span></p>
+      <p class="reminder-text">請先截圖留存此畫面，方便入場時快速找尋座位。</span></p>
       <p class="reminder-text"><b>請持「舊票券驗票入場」，入座於「新座位」。</b></p>
     </div>`;
 }
