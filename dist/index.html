@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>座位查詢系統｜國家兩廳院</title>
+<title>座位異動查詢系統｜國家兩廳院</title>
 <link rel="icon" type="image/png" href="logo-無字.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="theme-color" content="#CB333B">
@@ -24,10 +24,48 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ====== Avenir 授權字型檔（已從 Avenir.ttc 拆解並轉為 woff2） ====== */
+@font-face {
+  font-family: 'AvenirNextLTPro';
+  src: url('fonts/Avenir-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'AvenirNextLTPro';
+  src: url('fonts/Avenir-Book.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'AvenirNextLTPro';
+  src: url('fonts/Avenir-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  /* 網站有用到 600，用 Medium 檔案頂替，避免瀏覽器用假的「合成粗體」 */
+  font-family: 'AvenirNextLTPro';
+  src: url('fonts/Avenir-Medium.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'AvenirNextLTPro';
+  src: url('fonts/Avenir-Black.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 html, body { overflow-x: hidden; width: 100%; }
 
 body {
-  font-family: 'Poppins', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'AvenirNextLTPro', 'Poppins', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
@@ -98,13 +136,44 @@ body {
   .show-grid.single .show-card { flex-basis: 100%; min-height: 110px; font-size: 16px; }
 }
 
-/* 無節目時的提示 */
-.empty-notice { text-align: center; padding: 48px 20px; }
-.empty-notice .headline { font-size: 17px; font-weight: 600; color: var(--ink); margin-bottom: 14px; }
-.contact-block { display: inline-flex; flex-direction: column; align-items: center; gap: 8px; }
+/* 無節目時的提示：電腦版左右對分兩欄＋分隔線，手機版改為上下堆疊＋分隔線 */
+.empty-notice {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  padding: 48px 20px;
+  gap: 28px;
+}
+.empty-notice .headline-col {
+  flex: 1 1 50%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: right;
+}
+.empty-notice .headline { font-size: 17px; font-weight: 400; color: var(--ink); margin: 0; }
+.empty-notice .divider { flex: 0 0 1px; background: var(--border); align-self: stretch; }
+.empty-notice .contact-col {
+  flex: 1 1 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  gap: 8px;
+}
 .empty-notice .subline { font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0; }
-.empty-notice .phone { font-size: 22px; font-weight: 700; color: var(--red); margin: 2px 0 0; }
-.empty-notice .hours { font-size: 13px; font-weight: 600; color: var(--muted); margin: 0; letter-spacing: 0.02em; }
+.empty-notice .phone { font-size: 22px; font-weight: 400; color: var(--red); margin: 0; }
+.empty-notice .hours { font-size: 13px; font-weight: 400; color: var(--muted); margin: 0; letter-spacing: 0.02em; }
+
+@media (max-width: 700px) {
+  .empty-notice { flex-direction: column; gap: 20px; }
+  .empty-notice .headline-col,
+  .empty-notice .contact-col { flex: 0 1 auto; }
+  .empty-notice .headline-col { justify-content: center; text-align: center; }
+  .empty-notice .divider { flex: 0 0 1px; width: 100%; height: 1px; align-self: stretch; }
+  .empty-notice .contact-col { align-items: center; text-align: center; }
+}
 
 /* 場次選擇 */
 .select-label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
@@ -212,7 +281,7 @@ footer { text-align: center; padding: 20px 20px 28px; font-size: 11px; color: va
   <header class="venue-header">
     <div class="logo-wrap"><img src="logo-RB-s.png" alt="國家兩廳院"></div>
     <p class="venue-eyebrow" id="sessions-show-name">—</p>
-    <h1 class="venue-title">座位查詢</h1>
+    <h1 class="venue-title">座位異動查詢</h1>
     <p class="venue-sub">請選擇您的演出場次</p>
   </header>
 
@@ -232,7 +301,7 @@ footer { text-align: center; padding: 20px 20px 28px; font-size: 11px; color: va
   <header class="venue-header">
     <div class="logo-wrap"><img src="logo-RB-s.png" alt="國家兩廳院"></div>
     <p class="venue-eyebrow" id="lookup-show-name">—</p>
-    <h1 class="venue-title">座位查詢</h1>
+    <h1 class="venue-title">座位異動查詢</h1>
   </header>
 
   <div class="card">
@@ -312,8 +381,11 @@ function renderShows() {
     subtitle.textContent = '';
     content.innerHTML = `
       <div class="empty-notice">
-        <p class="headline">近期無需換位之演出節目</p>
-        <div class="contact-block">
+        <div class="headline-col">
+          <p class="headline">近期無需換位之演出節目</p>
+        </div>
+        <div class="divider"></div>
+        <div class="contact-col">
           <p class="subline">如有問題，請致電兩廳院客服</p>
           <p class="phone">02-3393-9888</p>
           <p class="hours">每日 09:00－20:00</p>
@@ -386,7 +458,7 @@ function resultHTML(res) {
     </div>
     <div class="reminder-box">
       <p class="reminder-title">📣 小提醒</p>
-      <p class="reminder-text">請先截圖留存此畫面，方便入場時快速找尋座位。</span></p>
+      <p class="reminder-text">請截圖留存此畫面，方便入場時快速找尋座位。</p>
       <p class="reminder-text"><b>請持「舊票券驗票入場」，入座於「新座位」。</b></p>
     </div>`;
 }
