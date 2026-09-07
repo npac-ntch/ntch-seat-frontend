@@ -24,10 +24,48 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ====== Avenir 授權字型檔（已從 Avenir.ttc 拆解並轉為 woff2） ====== */
+@font-face {
+  font-family: 'AvenirNextLTPro';
+  src: url('fonts/Avenir-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'AvenirNextLTPro';
+  src: url('fonts/Avenir-Book.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'AvenirNextLTPro';
+  src: url('fonts/Avenir-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  /* 網站有用到 600，用 Medium 檔案頂替，避免瀏覽器用假的「合成粗體」 */
+  font-family: 'AvenirNextLTPro';
+  src: url('fonts/Avenir-Medium.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'AvenirNextLTPro';
+  src: url('fonts/Avenir-Black.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 html, body { overflow-x: hidden; width: 100%; }
 
 body {
-  font-family: 'Poppins', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'AvenirNextLTPro', 'Poppins', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
@@ -49,7 +87,7 @@ body {
 .logo-wrap { display: flex; justify-content: center; align-items: center; margin-bottom: 18px; overflow: hidden; width: 100%; }
 .logo-wrap img { display: block; max-height: 44px; max-width: 100%; width: auto; height: auto; object-fit: contain; object-position: center; }
 .venue-eyebrow { font-size: 12px; font-weight: 600; color: var(--red); letter-spacing: 0.08em; line-height: 1.6; margin-bottom: 8px; }
-.venue-title { font-size: clamp(26px, 6vw, 38px); font-weight: 400; color: var(--ink); letter-spacing: -0.01em; margin-bottom: 6px; }
+.venue-title { font-size: clamp(26px, 6vw, 38px); font-weight: 300; color: var(--ink); letter-spacing: -0.01em; margin-bottom: 6px; }
 .venue-sub { font-size: 13px; color: var(--muted); }
 
 /* 卡片（一般容器） */
