@@ -7,6 +7,20 @@
 <link rel="icon" type="image/png" href="logo-無字.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="theme-color" content="#CB333B">
+
+<!-- Open Graph（分享到 LINE/FB/Slack 等平台時顯示的預覽卡片） -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="國家兩廳院 National Theater & Concert Hall">
+<meta property="og:title" content="座位異動查詢｜國家兩廳院">
+<meta property="og:description" content="國家兩廳院座位異動查詢系統，輸入原座位即可查詢演出換位後的新座位資訊。">
+<meta property="og:url" content="https://seat.npac-ntch.org">
+<meta property="og:image" content="https://seat.npac-ntch.org/og-image.jpg">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="座位異動查詢｜國家兩廳院">
+<meta name="twitter:description" content="國家兩廳院座位異動查詢系統，輸入原座位即可查詢演出換位後的新座位資訊。">
+<meta name="twitter:image" content="https://seat.npac-ntch.org/og-image.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+TC:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -87,7 +101,7 @@ body {
 .logo-wrap { display: flex; justify-content: center; align-items: center; margin-bottom: 18px; overflow: hidden; width: 100%; }
 .logo-wrap img { display: block; max-height: 44px; max-width: 100%; width: auto; height: auto; object-fit: contain; object-position: center; }
 .venue-eyebrow { font-size: 12px; font-weight: 600; color: var(--red); letter-spacing: 0.08em; line-height: 1.6; margin-bottom: 8px; }
-.venue-title { font-size: clamp(26px, 6vw, 38px); font-weight: 400; color: var(--ink); letter-spacing: -0.01em; margin-bottom: 6px; }
+.venue-title { font-size: clamp(26px, 6vw, 38px); font-weight: 300; color: var(--ink); letter-spacing: -0.01em; margin-bottom: 6px; }
 .venue-sub { font-size: 13px; color: var(--muted); }
 
 /* 卡片（一般容器） */
@@ -337,7 +351,7 @@ footer { text-align: center; padding: 20px 20px 28px; font-size: 11px; color: va
 
 <script>
 /* ====== 請將下方網址換成 Apps Script 部署後的 Web App 網址 ====== */
-const API_URL = 'https://script.google.com/macros/s/AKfycbyeR0EkdHAFfVWLe5qX6Dp2G1bAAt_UBiWV2fKiLOTuh5j3jWEvsYB6JWh1UogUoNMx/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbxfFeT4esy0sNSCBTYOb6p1tLWTMIrcEcifH4pKKImdexX8I6_-5UizFydKBn3Gmnx1/exec';
 
 let showsData = [];      // [{showName, sessions:[{tabName,label}]}]
 let selectedShow = '';
@@ -460,7 +474,15 @@ function resultHTML(res) {
       <p class="reminder-title">📣 小提醒</p>
       <p class="reminder-text">請截圖留存此畫面，方便入場時快速找尋座位。</p>
       <p class="reminder-text"><b>請持「舊票券驗票入場」，入座於「新座位」。</b></p>
-    </div>`;
+    </div>
+    <button class="btn btn-ghost" onclick="goToHomepage()">回首頁</button>`;
+}
+
+function goToHomepage() {
+  selectedShow = '';
+  selectedSession = null;
+  showPage('shows');
+  loadShows(); // 順便重新整理節目清單，避免資料過期
 }
 
 /* 全形轉半形（避免輸入法切成全形時查不到資料），並移除任何空白（含全形空白） */
@@ -547,6 +569,13 @@ function setupSeatInputs() {
         prev.focus();
       }
     });
+
+    // 數字欄位（樓、號）在聚焦時，滑鼠滾輪不應該用來調整數值
+    if (el.type === 'number') {
+      el.addEventListener('wheel', (e) => {
+        e.preventDefault();
+      }, { passive: false });
+    }
   });
 }
 
